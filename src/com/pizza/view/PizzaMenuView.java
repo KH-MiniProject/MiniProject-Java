@@ -3,6 +3,7 @@ package com.pizza.view;
 import java.util.Scanner;
 
 import com.pizza.controller.PizzaMenuManager;
+import com.pizza.model.vo.PizzaMenu;
 
 public class PizzaMenuView {
 	
@@ -67,7 +68,7 @@ public class PizzaMenuView {
 			case "4": pmm.AddDrinkMenu(DrinkMenu()); break;
 			case "5": pmm.AddSauceMenu(SauceMenu()); break;
 			case "6": OrderMenu(); break;
-			case "7": pmm.PrintCart(); break; // 테스트 출력
+			case "7": pmm.SortCart(); pmm.PrintCart(); /*pmm.PrintCount();*/ break; // 테스트 출력
 			case "0": return;
 			default : System.out.println("잘못 입력하셨습니다.");
 			}
@@ -77,9 +78,14 @@ public class PizzaMenuView {
 	public void OrderMenu() {
 		String strOrderMenu1 = "==========================================================\n"
 							 + "                          장바구니                           \n"
-							 + "==========================================================\n";
-				 
-		String strOrderMenu2 = "==========================================================\n"
+							 + "==========================================================\n"
+							 + "카테고리\t메뉴이룸\t가격\t  \t";
+		
+		String strOrderMenu2 = "총 가격 : ";
+		
+		String strOrderMenu3 = "==========================================================\n";
+		
+		String strOrderMenu4 = "==========================================================\n"
 							 + "1. 메뉴 추가\n"
 							 + "2. 메뉴 삭제\n"
 							 + "3. 결제하기\n"
@@ -89,19 +95,33 @@ public class PizzaMenuView {
 		
 		while(bool) {
 			System.out.print(strOrderMenu1);
+			System.out.print(strOrderMenu2);
+			pmm.TotalPirce();
+			System.out.print(strOrderMenu3);
 			pmm.PrintCart();
-			System.out.println(strOrderMenu2);
+			System.out.println(strOrderMenu4);
 			String OrderSelected = sc.next();
 			
 			switch(OrderSelected) {
 			case "1" : PizzaMenuList(); break;
-			case "2" : break; // 구현 예정
+			case "2" : removeCart(); break; // 구현 예정
 			case "3" : PaymentMenu(); break;
 			case "9" : break;
 			case "0" : return;
 			default : System.out.println("잘못 입력하셨습니다.");
 			}
 		}
+	}
+	
+	public void removeCart() {
+	      boolean result = false;
+	      result = pmm.removeCart(inputTitle());
+	      System.out.println(result ? "> 삭제 성공!" : "> 삭제 실패! 찾으시는 메뉴가 없습니다.");
+	}
+	
+	public String inputTitle() {
+		System.out.println("메뉴 이름을 입력하세요 : ");
+		return sc.next();
 	}
 	
 	public void PaymentMenu() {
@@ -125,15 +145,15 @@ public class PizzaMenuView {
 			case "1" : // 포장 주문
 				System.out.println("포장 주문을 선택하셨습니다.");
 				pmm.PrintCart();
-				orderCheck();
+				orderCheckPacking();
 				break;
 			case "2" : // 배달 주문
 				System.out.println("배달 주문을 선택하셨습니다.");
 				pmm.PrintCart();
-				orderCheck();
+				orderCheckDeliver();
 				break;
-			case "3" : // 장바구니 확인
-//				new OrderMenuView().OrderMenu();
+			case "3" : 
+				OrderMenu();
 				break;
 			case "9" :
 				return;
@@ -146,18 +166,65 @@ public class PizzaMenuView {
 		}
 	}
 	
-	private void orderCheck() {
-		String orderCheckMenu = "==========================================================\n"
-							  + "                          주문 확인서                         \n"
-							  + "===========================================================\n"
-							  + "1. 주문 하기\n"
-							  + "0. 주문 취소\n"
-							  + "==========================================================\n"
-							  + ">> ";
+	private void orderCheckPacking() {
+		String orderCheckMenu1 = "==========================================================\n"
+							   + "                          주문 확인서                         \n"
+							   + "===========================================================\n"
+							   + "카테고리\t메뉴이룸\t가격\t / \t";
+		String orderCheckMenu2 = "총 가격 : ";
+		String orderCheckMenu3 = "==========================================================\n";
+		String orderCheckMenu4 = "1. 주문 하기\n"
+							   + "0. 주문 취소\n"
+							   + "==========================================================\n"
+							   + ">> ";
 		
 		
 		while(bool) {
-			System.out.println(orderCheckMenu);
+			System.out.print(orderCheckMenu1);
+			System.out.print(orderCheckMenu2);
+			pmm.Packing();
+			System.out.print(orderCheckMenu3);
+			pmm.PrintCart();
+			System.out.println(orderCheckMenu4);
+			String choice = sc.next();
+			sc.nextLine();
+			switch(choice) {
+			case "1" : // 주문 하기
+				System.out.println("주문 완료 !");
+				pmm.fileSave();
+				pmm.fileRead();
+				bool = false;
+				break;
+			case "0" : // 주문 취소
+				System.out.println("주문이 취소되었습니다.");
+				bool = false;
+				break;
+			default : System.out.println("잘못 입력하셨습니다.");
+			}
+			System.out.println("프로그램 종료");
+		}
+	}
+	
+	private void orderCheckDeliver() {
+		String orderCheckMenu1 = "==========================================================\n"
+							   + "                          주문 확인서                         \n"
+							   + "===========================================================\n"
+							   + "카테고리\t메뉴이룸\t가격\t / \t";
+		String orderCheckMenu2 = "총 가격 : ";
+		String orderCheckMenu3 = "==========================================================\n";
+		String orderCheckMenu4 = "1. 주문 하기\n"
+							   + "0. 주문 취소\n"
+							   + "==========================================================\n"
+							   + ">> ";
+		
+		
+		while(bool) {
+			System.out.print(orderCheckMenu1);
+			System.out.print(orderCheckMenu2);
+			pmm.Deliver();
+			System.out.print(orderCheckMenu3);
+			pmm.PrintCart();
+			System.out.println(orderCheckMenu4);
 			String choice = sc.next();
 			sc.nextLine();
 			switch(choice) {

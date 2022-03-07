@@ -2,28 +2,34 @@ package com.pizza.model.vo;
 
 import java.io.Serializable;
 
-public class PizzaMenu implements Serializable{
+public class PizzaMenu implements Serializable, Comparable<PizzaMenu> {
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private String pNo;     // 메뉴 번호
+	private String categoryNum; // 카테고리 정렬용 이름
 	private String category;    // 카테고리
 	private String title;    // 메뉴 이름
 	private int price;        // 가격
-	private int count = 0;	// 수량
-	
 	
 	public PizzaMenu() {}
 	
-	public PizzaMenu(String pNo, String category, String title, int price) {
+	public PizzaMenu(String pNo, String categoryNum, String category, String title, int price) {
 		super();
 		this.pNo = pNo;
+		this.categoryNum = categoryNum;
 		this.category = category;
 		this.title = title;
 		this.price = price;
 	}
 	
+	public String getCategoryNum() {
+		return categoryNum;
+	}
+	public void setCategoryNum(String categoryNum) {
+		this.categoryNum = categoryNum;
+	}
 	public String getpNo() {
 		return pNo;
 	}
@@ -51,6 +57,12 @@ public class PizzaMenu implements Serializable{
 
 	@Override
 	public String toString() {
-		return pNo +"\t"+ category +"\t"+ title +"\t"+ price;
+		return pNo + category +"\t"+ title +"\t"+ price;
 	}
+
+	@Override
+	public int compareTo(PizzaMenu o) {
+		return this.categoryNum.compareTo(o.categoryNum);
+	}
+	
 }
