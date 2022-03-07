@@ -41,7 +41,7 @@ public class ToppingMenu {
 
 	@Override
 	public String toString() {
-		return tno + title + price;
+		return tno + "\t" + title + "\t" + price;
 	}
 	
 

@@ -12,6 +12,8 @@ public class PizzaMenu implements Serializable, Comparable<PizzaMenu> {
 	private String category;    // 카테고리
 	private String title;    // 메뉴 이름
 	private int price;        // 가격
+	private int totalPrice = 0;
+	
 	
 	public PizzaMenu() {}
 	
@@ -58,6 +60,11 @@ public class PizzaMenu implements Serializable, Comparable<PizzaMenu> {
 	@Override
 	public String toString() {
 		return pNo + category +"\t"+ title +"\t"+ price;
+	}
+	
+	
+	public void totalPrice() {
+		totalPrice += this.price;
 	}
 
 	@Override
