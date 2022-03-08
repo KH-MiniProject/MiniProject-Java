@@ -19,6 +19,6 @@ public class PaymentMenu {
 
 	@Override
 	public String toString() {
-		return "PaymentMenu [orderWay=" + orderWay + "]";
+		return "주문 방법 : " + orderWay;
 	}
 }

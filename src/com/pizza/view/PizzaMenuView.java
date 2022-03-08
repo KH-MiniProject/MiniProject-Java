@@ -1,11 +1,9 @@
 package com.pizza.view;
 
-import java.util.List;
 import java.util.Scanner;
 
 import com.pizza.controller.PizzaMenuManager;
-import com.pizza.model.vo.PizzaMenu;
-import com.pizza.model.vo.ToppingMenu;
+import com.pizza.mail.SendMail;
 
 public class PizzaMenuView {
 
@@ -17,7 +15,6 @@ public class PizzaMenuView {
 	private String choiceSideMenu;
 	private String choiceDrinkMenu;
 	private String choiceSauceMenu;
-	private String choiceToppingMenu;
 
 	private boolean bool = true;
 	int priceTotal = 0;
@@ -55,35 +52,25 @@ public class PizzaMenuView {
 				+ "4. 음료\n"
 				+ "5. 소스\n"
 				+ "6. 주문\n"
-				+ "7. 테스트 출력\n"
 				+ "0. 이전 메뉴로 돌아가기\n"
 				+ "==========================================================\n"
 				+ ">> ";
-
-		while(bool) {
+//		while(bool) {
 			System.out.print(strMenuList);
 			String menuSelected = sc.next();
-
+			
 			switch(menuSelected) {
-			case "1": pmm.AddSetMenu(SetMenu());
-			pmm.AddToppingMenu(ToppingMenu());
-			break;
-			case "2": pmm.AddSigleMenu(SingleMenu());
-			pmm.AddToppingMenu(ToppingMenu());
-			break;
+			
+			case "1": pmm.AddSetMenu(SetMenu()); break;
+			case "2": pmm.AddSigleMenu(SingleMenu()); break;
 			case "3": pmm.AddSideMenu(SideMenu()); break;
 			case "4": pmm.AddDrinkMenu(DrinkMenu()); break;
 			case "5": pmm.AddSauceMenu(SauceMenu()); break;
 			case "6": OrderMenu(); break;
-			case "7": pmm.PrintCart(); 
-			System.out.println("\n");  
-			pmm.SortCart(); 
-			pmm.PrintCart(); 
-			pmm.PrintCart2(); break; // 테스트 출력
 			case "0": return;
 			default : System.out.println("잘못 입력하셨습니다.");
 			}
-		}
+//		}
 	}
 
 
@@ -91,7 +78,7 @@ public class PizzaMenuView {
 		String strOrderMenu1 = "==========================================================\n"
 				+ "                          장바구니                           \n"
 				+ "==========================================================\n"
-				+ "카테고리\t메뉴이룸\t가격\t  \t";
+				+ "카테고리\t메뉴이름\t\t가격\t  \t";
 
 		String strOrderMenu2 = "총 가격 : ";
 
@@ -110,6 +97,7 @@ public class PizzaMenuView {
 			System.out.print(strOrderMenu2);
 			pmm.TotalPirce();
 			System.out.print(strOrderMenu3);
+			pmm.SortCart();
 			pmm.PrintCart();
 			System.out.println(strOrderMenu4);
 			String OrderSelected = sc.next();
@@ -157,14 +145,17 @@ public class PizzaMenuView {
 			case "1" : // 포장 주문
 				System.out.println("포장 주문을 선택하셨습니다.");
 				pmm.PaymentOrderWay_Packing();
+				pmm.joined();
+				pmm.SortCart();
 				pmm.PrintCart();
 				orderCheckPacking();
 				break;
 			case "2" : // 배달 주문
 				System.out.println("배달 주문을 선택하셨습니다.");
 				pmm.PaymentOrderWay_Deliver();
+				pmm.joined();
+				pmm.SortCart();
 				pmm.PrintCart();
-				pmm.test();
 				orderCheckDeliver();
 				break;
 			case "3" : 
@@ -185,20 +176,21 @@ public class PizzaMenuView {
 		String orderCheckMenu1 = "==========================================================\n"
 				+ "                          주문 확인서                         \n"
 				+ "===========================================================\n"
-				+ "카테고리\t메뉴이룸\t가격\t / \t";
+				+ "카테고리\t메뉴이룸\t\t가격\t / \t";
 		String orderCheckMenu2 = "총 가격 : ";
 		String orderCheckMenu3 = "==========================================================\n";
 		String orderCheckMenu4 = "1. 주문 하기\n"
 				+ "0. 주문 취소\n"
 				+ "==========================================================\n"
 				+ ">> ";
-
+		SendMail send = new SendMail();
 
 		while(bool) {
 			System.out.print(orderCheckMenu1);
 			System.out.print(orderCheckMenu2);
 			pmm.Packing();
 			System.out.print(orderCheckMenu3);
+			pmm.SortCart();
 			pmm.PrintCart();
 			System.out.println(orderCheckMenu4);
 			String choice = sc.next();
@@ -208,6 +200,7 @@ public class PizzaMenuView {
 				System.out.println("주문 완료 !");
 				pmm.fileSave();
 				pmm.fileRead();
+				send.gmailSend();
 				bool = false;
 				break;
 			case "0" : // 주문 취소
@@ -224,7 +217,7 @@ public class PizzaMenuView {
 		String orderCheckMenu1 = "==========================================================\n"
 				+ "                          주문 확인서                         \n"
 				+ "===========================================================\n"
-				+ "카테고리\t메뉴이룸\t가격\t / \t";
+				+ "카테고리\t메뉴이룸\t\t가격\t / \t";
 		String orderCheckMenu2 = "총 가격 : ";
 		String orderCheckMenu3 = "==========================================================\n";
 		String orderCheckMenu4 = "1. 주문 하기\n"
@@ -232,12 +225,13 @@ public class PizzaMenuView {
 				+ "==========================================================\n"
 				+ ">> ";
 
-
+		SendMail send = new SendMail();
 		while(bool) {
 			System.out.print(orderCheckMenu1);
 			System.out.print(orderCheckMenu2);
 			pmm.Deliver();
 			System.out.print(orderCheckMenu3);
+			pmm.SortCart();
 			pmm.PrintCart();
 			System.out.println(orderCheckMenu4);
 			String choice = sc.next();
@@ -247,6 +241,7 @@ public class PizzaMenuView {
 				System.out.println("주문 완료 !");
 				pmm.fileSave();
 				pmm.fileRead();
+				send.gmailSend();
 				bool = false;
 				break;
 			case "0" : // 주문 취소
@@ -356,60 +351,4 @@ public class PizzaMenuView {
 		return choiceSauceMenu;
 
 	}
-
-	private String ToppingMenu() {
-		boolean tBool = true;
-		System.out.print("==========================================================\n"
-				+ "토핑 추가하시겠습니까? y / n\n"
-				+ "==========================================================\n"
-				+ ">> ");
-		String tChoice = sc.next();
-
-			while(tBool) {
-				if(tChoice.equals("y")) {
-					String strToppingMenu = "==========================================================\n"
-							+ "                         토핑 메뉴                           \n"
-							+ "==========================================================\n"
-							+ "1. 치즈-------------------------------------------1,500원\n"
-							+ "2. 베이컨------------------------------------------1,500원\n"
-							+ "3. 올리브----------------------------------------1,000원\n"
-							+ "4. 불고기-------------------------------------------1,500원\n"
-							+ "5. 페퍼로니------------------------------------------1,500원\n"
-							+ "6. 포테이토----------------------------------------1,500원\n"
-							+ "7. 토마토소스------------------------------------------1,000원\n"
-							+ "8. 종합----------------------------------------8,000원\n"
-							+ "==========================================================\n"
-							+ "0. 이전 메뉴로 돌아가기\n"
-							+ "==========================================================\n"
-							+ ">> ";
-
-					System.out.print(strToppingMenu);
-					choiceToppingMenu = sc.next();
-					System.out.print("==========================================================\n"
-							+ "추가 토핑 하시겠습니까? y / n\n"
-							+ "==========================================================\n"
-							+ ">> ");
-					String tTChoice = sc.next();
-					if(tTChoice.equals("y")) {
-						continue;
-					}
-					else if(tTChoice.equals("n")){
-						tBool = false;
-					}
-					else {
-						System.out.println("잘못 입력하셨습니다.");
-						return tTChoice;
-					}
-
-				}
-				else if (tChoice.equals("n")) {
-					tBool = false;
-				}
-				else {
-					System.out.println("잘못 입력하셨습니다.");
-					return tChoice;
-				}
-			}return choiceToppingMenu;
-	}
-
 }
