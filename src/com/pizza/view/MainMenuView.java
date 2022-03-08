@@ -3,7 +3,7 @@ package com.pizza.view;
 import java.util.Scanner;
 
 public class MainMenuView {
-	public void MainMenu() {
+	public void mainMenu() {
 		
 		Scanner sc = new Scanner(System.in);
 		
@@ -41,10 +41,10 @@ public class MainMenuView {
             System.out.println("프로그램 종료 !");
         } else if(str.equals("")) {
             System.out.println("주문 시작 !");
-            new PizzaMenuView().PizzaMenu();
+            new PizzaMenuView().pizzaMenu();
         } else{
             System.out.println("잘못 입력하셨습니다.\n");
-            new MainMenuView().MainMenu();
+            new MainMenuView().mainMenu();
         }
     }
 }

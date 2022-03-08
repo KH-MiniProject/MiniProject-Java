@@ -36,6 +36,6 @@ public class ToppingMenu extends Menu {
 	
 	@Override
 	public String toString() {
-		return "토핑 : " + titleTooping + " / 토핑 가격" + priceTooping;
+		return "토핑 : " + titleTooping + " / 토핑 가격 : " + priceTooping;
 	}
 }

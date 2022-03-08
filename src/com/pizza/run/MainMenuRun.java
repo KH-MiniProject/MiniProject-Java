@@ -4,6 +4,6 @@ import com.pizza.view.MainMenuView;
 
 public class MainMenuRun {
 	public static void main(String[] args) {
-		new MainMenuView().MainMenu();
+		new MainMenuView().mainMenu();
 	}
 }

@@ -19,7 +19,7 @@ public class PizzaMenuView {
 	private boolean bool = true;
 	int priceTotal = 0;
 
-	public void PizzaMenu() {
+	public void pizzaMenu() {
 		String strPizzaMenu = "==========================================================\n"
 				+ "                            메뉴                           \n"
 				+ "==========================================================\n"
@@ -34,15 +34,15 @@ public class PizzaMenuView {
 				String selected = sc.next();
 
 				switch(selected) {
-				case "1": PizzaMenuList(); break; 
-				case "2": OrderMenu(); break;
+				case "1": foodMenuList(); break; 
+				case "2": orderMenu(); break;
 				case "0": System.out.print("프로그램 종료 !"); break outer;
 				default : System.out.println("잘못 입력하셨습니다.");
 				}
 			}
 	}
 
-	public void PizzaMenuList() {
+	public void foodMenuList() {
 		String strMenuList = "==========================================================\n"
 				+ "                         메뉴 목록                           \n"
 				+ "==========================================================\n"
@@ -55,30 +55,29 @@ public class PizzaMenuView {
 				+ "0. 이전 메뉴로 돌아가기\n"
 				+ "==========================================================\n"
 				+ ">> ";
-//		while(bool) {
+
 			System.out.print(strMenuList);
 			String menuSelected = sc.next();
 			
 			switch(menuSelected) {
 			
-			case "1": pmm.AddSetMenu(SetMenu()); break;
-			case "2": pmm.AddSigleMenu(SingleMenu()); break;
-			case "3": pmm.AddSideMenu(SideMenu()); break;
-			case "4": pmm.AddDrinkMenu(DrinkMenu()); break;
-			case "5": pmm.AddSauceMenu(SauceMenu()); break;
-			case "6": OrderMenu(); break;
+			case "1": pmm.addSetMenu(setMenu()); break;
+			case "2": pmm.addSigleMenu(singleMenu()); break;
+			case "3": pmm.addSideMenu(sideMenu()); break;
+			case "4": pmm.addDrinkMenu(drinkMenu()); break;
+			case "5": pmm.addSauceMenu(sauceMenu()); break;
+			case "6": orderMenu(); break;
 			case "0": return;
 			default : System.out.println("잘못 입력하셨습니다.");
 			}
-//		}
 	}
 
 
-	public void OrderMenu() {
+	public void orderMenu() {
 		String strOrderMenu1 = "==========================================================\n"
 				+ "                          장바구니                           \n"
 				+ "==========================================================\n"
-				+ "카테고리\t메뉴이름\t\t가격\t  \t";
+				+ "카테고리\t메뉴이름\t\t\t가격\t  \t";
 
 		String strOrderMenu2 = "총 가격 : ";
 
@@ -86,8 +85,8 @@ public class PizzaMenuView {
 
 		String strOrderMenu4 = "==========================================================\n"
 				+ "1. 메뉴 추가\n"
-				+ "2. 메뉴 삭제\n"
-				+ "3. 결제하기\n"
+//				+ "2. 메뉴 삭제\n"
+				+ "2. 결제하기\n"
 				+ "0. 이전 메뉴로 돌아가기\n"
 				+ "==========================================================\n"
 				+ ">> ";
@@ -95,17 +94,17 @@ public class PizzaMenuView {
 		while(bool) {
 			System.out.print(strOrderMenu1);
 			System.out.print(strOrderMenu2);
-			pmm.TotalPirce();
+			pmm.totalPirce();
 			System.out.print(strOrderMenu3);
-			pmm.SortCart();
-			pmm.PrintCart();
-			System.out.println(strOrderMenu4);
+			pmm.sortCart();
+			pmm.printCart();
+			System.out.print(strOrderMenu4);
 			String OrderSelected = sc.next();
 
 			switch(OrderSelected) {
-			case "1" : PizzaMenuList(); break;
-			case "2" : removeCart(); break;
-			case "3" : PaymentMenu(); break;
+			case "1" : foodMenuList(); break;
+//			case "2" : removeCart(); break;
+			case "2" : paymentMenu(); break;
 			case "9" : break;
 			case "0" : return;
 			default : System.out.println("잘못 입력하셨습니다.");
@@ -113,18 +112,18 @@ public class PizzaMenuView {
 		}
 	}
 
-	public void removeCart() {
-		boolean result = false;
-		result = pmm.removeCart(inputTitle());
-		System.out.println(result ? "> 삭제 성공!" : "> 삭제 실패! 찾으시는 메뉴가 없습니다.");
-	}
+//	public void removeCart() {
+//		boolean result = false;
+//		result = pmm.removeCart(inputTitle());
+//		System.out.println(result ? "> 삭제 성공!" : "> 삭제 실패! 찾으시는 메뉴가 없습니다.");
+//	}
+//
+//	public String inputTitle() {
+//		System.out.print("메뉴 이름을 입력하세요 > ");
+//		return sc.next();
+//	}
 
-	public String inputTitle() {
-		System.out.println("메뉴 이름을 입력하세요 : ");
-		return sc.next();
-	}
-
-	public void PaymentMenu() {
+	public void paymentMenu() {
 		String strPaymentMenu = "==========================================================\n"
 				+ "                        주문 방식 선택                        \n"
 				+ "==========================================================\n"
@@ -144,22 +143,22 @@ public class PizzaMenuView {
 			switch(choice) {
 			case "1" : // 포장 주문
 				System.out.println("포장 주문을 선택하셨습니다.");
-				pmm.PaymentOrderWay_Packing();
+				pmm.paymentOrderWay_Packing();
 				pmm.joined();
-				pmm.SortCart();
-				pmm.PrintCart();
+				pmm.sortCart();
+				pmm.totalPirce();
 				orderCheckPacking();
 				break;
 			case "2" : // 배달 주문
 				System.out.println("배달 주문을 선택하셨습니다.");
-				pmm.PaymentOrderWay_Deliver();
+				pmm.paymentOrderWay_Deliver();
 				pmm.joined();
-				pmm.SortCart();
-				pmm.PrintCart();
+				pmm.sortCart();
+				pmm.totalPirce();
 				orderCheckDeliver();
 				break;
 			case "3" : 
-				OrderMenu();
+				orderMenu();
 				break;
 			case "9" :
 				return;
@@ -176,7 +175,7 @@ public class PizzaMenuView {
 		String orderCheckMenu1 = "==========================================================\n"
 				+ "                          주문 확인서                         \n"
 				+ "===========================================================\n"
-				+ "카테고리\t메뉴이룸\t\t가격\t / \t";
+				+ "카테고리\t메뉴이름\t\t가격\t / \t";
 		String orderCheckMenu2 = "총 가격 : ";
 		String orderCheckMenu3 = "==========================================================\n";
 		String orderCheckMenu4 = "1. 주문 하기\n"
@@ -188,11 +187,11 @@ public class PizzaMenuView {
 		while(bool) {
 			System.out.print(orderCheckMenu1);
 			System.out.print(orderCheckMenu2);
-			pmm.Packing();
+			pmm.packing();
 			System.out.print(orderCheckMenu3);
-			pmm.SortCart();
-			pmm.PrintCart();
-			System.out.println(orderCheckMenu4);
+			pmm.sortCart();
+			pmm.printCart();
+			System.out.print(orderCheckMenu4);
 			String choice = sc.next();
 			sc.nextLine();
 			switch(choice) {
@@ -229,11 +228,11 @@ public class PizzaMenuView {
 		while(bool) {
 			System.out.print(orderCheckMenu1);
 			System.out.print(orderCheckMenu2);
-			pmm.Deliver();
+			pmm.deliver();
 			System.out.print(orderCheckMenu3);
-			pmm.SortCart();
-			pmm.PrintCart();
-			System.out.println(orderCheckMenu4);
+			pmm.sortCart();
+			pmm.printCart();
+			System.out.print(orderCheckMenu4);
 			String choice = sc.next();
 			sc.nextLine();
 			switch(choice) {
@@ -254,7 +253,7 @@ public class PizzaMenuView {
 		}
 	}
 
-	public String SetMenu() {
+	public String setMenu() {
 		String strSetMenu = "==========================================================\n"
 				+ "                         세트 메뉴                           \n"
 				+ "==========================================================\n"
@@ -274,7 +273,7 @@ public class PizzaMenuView {
 		return choiceSetMenu;
 	}
 
-	public String SingleMenu() {
+	public String singleMenu() {
 		String strSingleMenu = "==========================================================\n"
 				+ "                         단품 메뉴                           \n"
 				+ "==========================================================\n"
@@ -294,7 +293,7 @@ public class PizzaMenuView {
 		return choiceSingleMenu;
 	}
 
-	public String SideMenu() {
+	public String sideMenu() {
 		String strSideMenu = "==========================================================\n"
 				+ "                        사이드 메뉴                           \n"
 				+ "==========================================================\n"
@@ -314,7 +313,7 @@ public class PizzaMenuView {
 		return choiceSideMenu;
 	}
 
-	public String DrinkMenu() {
+	public String drinkMenu() {
 		String strDrinkMenu = "==========================================================\n"
 				+ "                         음료 메뉴                           \n"
 				+ "==========================================================\n"
@@ -333,13 +332,12 @@ public class PizzaMenuView {
 		return choiceDrinkMenu;
 	}
 
-	public String SauceMenu() {
+	public String sauceMenu() {
 		String strSauceMenu = "==========================================================\n"
 				+ "                         소스 메뉴                           \n"
 				+ "==========================================================\n"
 				+ "1. 핫 소스---------------------------------------------200원\n"
 				+ "2. 갈릭 소스--------------------------------------------200원\n"
-				+ "3. 머스타드 소스-----------------------------------------200원\n"
 				+ "==========================================================\n"
 				+ "0. 이전 메뉴로 돌아가기\n"
 				+ "==========================================================\n"

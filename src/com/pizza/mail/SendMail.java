@@ -20,10 +20,10 @@ import com.pizza.model.vo.PizzaMenu;
 
 public class SendMail {
     public void gmailSend() {
-        String user = "ID@gmail.com"; 	// 네이버일 경우 네이버 계정, gmail경우 gmail 계정
-        String password = "PASWORD";   	// 패스워드
+        String user = "ymiru0324@gmail.com"; 	// 네이버일 경우 네이버 계정, gmail경우 gmail 계정
+        String password = "zumevrrlzmccbmza";   	// 패스워드
 
-        String to = "ID@gmail.com";
+        String to = "ymiru0324@gmail.com";
 
         // SMTP 서버 정보를 설정한다.
         Properties prop = new Properties();
@@ -46,10 +46,12 @@ public class SendMail {
         	MimeMessage message = new MimeMessage(session);
         	
         	String str_Arr[] = (String[]) ois.readObject();
-        	
         	StringBuilder sb = new StringBuilder();
+        	String next = "\n";
+        	
         	for(int i = 0; i < str_Arr.length; i++) {
-        			sb.append(str_Arr[i]);        			
+        		sb.append(str_Arr[i]);        		
+        		sb.append(next);
         	}
         	
         	message.setText(sb.toString());
@@ -64,7 +66,7 @@ public class SendMail {
 
             // send the message
             Transport.send(message); ////전송
-            System.out.println("message sent successfully...");
+            System.out.println("가게에 성공적으로 전달되었습니다 !");
         } catch (AddressException e) {
             e.printStackTrace();
         } catch (MessagingException e) {
