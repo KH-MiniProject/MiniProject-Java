@@ -191,6 +191,7 @@ public class PizzaMenuView {
 			System.out.print(orderCheckMenu3);
 			pmm.sortCart();
 			pmm.printCart();
+			System.out.print(orderCheckMenu3);
 			System.out.print(orderCheckMenu4);
 			String choice = sc.next();
 			sc.nextLine();
@@ -232,6 +233,7 @@ public class PizzaMenuView {
 			System.out.print(orderCheckMenu3);
 			pmm.sortCart();
 			pmm.printCart();
+			System.out.print(orderCheckMenu3);
 			System.out.print(orderCheckMenu4);
 			String choice = sc.next();
 			sc.nextLine();
