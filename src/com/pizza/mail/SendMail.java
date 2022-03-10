@@ -20,10 +20,10 @@ import com.pizza.model.vo.PizzaMenu;
 
 public class SendMail {
     public void gmailSend() {
-        String user = "ymiru0324@gmail.com"; 	// 네이버일 경우 네이버 계정, gmail경우 gmail 계정
-        String password = "zumevrrlzmccbmza";   	// 패스워드
+        String user = "ID@gmail.com"; 		// GMail 계정 입력
+        String password = "Password";   	// SMTP 패스워드
 
-        String to = "ymiru0324@gmail.com";
+        String to = "ID@gmail.com";			// GMail 계정 입력
 
         // SMTP 서버 정보를 설정한다.
         Properties prop = new Properties();
